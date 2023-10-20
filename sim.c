@@ -89,6 +89,7 @@ typedef struct {
     int line;
     int score;
 } move_t;
+
 move_t best_move(board_t board, player_t player){
     move_t ans; move_t temp; int nt = 1;
     for (int i = 0; i < 15; i++) {
@@ -137,7 +138,7 @@ move_t best_move(board_t board, player_t player){
         }
     }
 
-    return temp;
+    return temp;
 }
 
 void print_board(board_t board){
@@ -156,7 +157,7 @@ int main(){
     board_t board;
     move_t ans;
     int x;
-    printf("You are red, if you want to move first enter 1 else enter    2: ");
+    printf("You are red, if you want to move first enter 1 else enter 2: ");
     scanf("%d", &x);
     player_t now;
     if (x == 1) {
