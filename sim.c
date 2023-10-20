@@ -89,7 +89,56 @@ typedef struct {
     int line;
     int score;
 } move_t;
+move_t best_move(board_t board, player_t player){
+    move_t ans; move_t temp; int nt = 1;
+    for (int i = 0; i < 15; i++) {
+        if (board[i] == NO) {
+            board[i] = player;
+            if (has_won(board, player)) {
+                board[i] = NO;
+                return (move_t){i, 1};
+            }
+            board[i] = NO;
+        }
+    }
+    player_t opponent = other(player);
+    for (int i = 0; i < 15; i++) {
+        if (board[i] == NO) {
+            board[i] = opponent;
+            if (has_won(board, opponent)) {
+                board[i] = NO; 
+                return (move_t){i, 1};
+            }
+            board[i] = NO;
+        }
+    }
+    for (int i = 0; i < 15; i++) {
+        if (board[i] == NO) {
+            board[i] = player;
+            ans = best_move(board, other(player));
+            board[i] = NO;
+            if (is_full(board)) {
+                board[i] = NO;
+                move_t y;
+                y.line = i; y.score = 0;
+                return y;
+            }
+            if (ans.score == -1) {
+                return (move_t){i, 1};
+            } else if (ans.score == 0) {
+                temp = (move_t){i, 0};
+                nt = 0;
+            } else {
+                if (nt) {
+                    temp = (move_t){i, -1};
+                    nt = 0;
+                }
+            }
+        }
+    }
 
+    return temp;
+}
 
 void print_board(board_t board){
     for (int i = 0; i < 15; i++) {
